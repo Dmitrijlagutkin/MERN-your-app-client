@@ -1,9 +1,9 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {useSelector, useDispatch} from "react-redux"
 import {useHistory} from "react-router-dom"
 import { makeStyles } from '@material-ui/styles';
 import Button from "../../components/Button";
-import {ROUTE_CREATE_LIST} from "../../constants"
+import {ROUTE_LOGIN, ROUTE_CREATE_LIST} from "../../constants"
 import ListCard from "./ListCard"
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import Tooltip from "../../components/Tooltip"
@@ -65,7 +65,14 @@ const ListsPage = () => {
     const history = useHistory()
     const {lists} = useSelector((state) => state?.lists)
     const {isEmailActivated} = useSelector((state) => state?.isEmailActivated)
+    const { isAuth } = useSelector((state) => state?.isAuth)
     const [searchText, setSearchText] = useState('')
+
+    useEffect(() => {
+        if(!isAuth) {
+            history.push(ROUTE_LOGIN)
+        }
+    }, [isAuth])
 
     const onClickToCreateList = () => history.push(ROUTE_CREATE_LIST)
     const onChangeSearchText = (e) => setSearchText(e.target.value)
