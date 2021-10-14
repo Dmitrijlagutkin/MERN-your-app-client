@@ -67,7 +67,6 @@ const BasicTextFields = ({label,
         onFocus={onFocusInput}
         error={errorInput}
         defaultValue={defaultValue}
-        autoComplete="on"
         />
     </form>
   );
