@@ -42,23 +42,40 @@ const useStyles = makeStyles((theme) => ({
     bottomButton: {
         cursor: "pointer",
         display: "inline-block"
+    },
+    emailActivated: {
+        padding: "10px 15px",
+        display: "block",
+        // fontWeight: "600",
+        maxWidth: "100%",
+        backgroundColor: "rgb(255, 183, 77)"
+    },
+    buttonCheckNow: {
+        marginLeft: "10px",
+        cursor: "pointer",
+        color: "#3f51b5",
+        textDecoration: "underline",
+        fontWeight: "600",
     }
 }));
 
 const ListsPage = () => {
     const classes = useStyles()
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const history = useHistory()
     const {lists} = useSelector((state) => state?.lists)
+    const {isEmailActivated} = useSelector((state) => state?.isEmailActivated)
     const [searchText, setSearchText] = useState('')
 
     const onClickToCreateList = () => history.push(ROUTE_CREATE_LIST)
     const onChangeSearchText = (e) => setSearchText(e.target.value)
-    console.log(searchText)
 
     return (
         <div className={classes.root}>
-            {/* <ShareWithFriends/> */}
+            {!isEmailActivated && <span className={classes.emailActivated}>
+                Please check your email and follow the link to activate your email address
+                <a href="https://mail.google.com/mail/u/0/?tab=rm#inbox" className={classes.buttonCheckNow}>check now</a>
+            </span>}
             {!lists?.length ? 
                 <div className={classes.titleWrapper}>
                     <h4 className={classes.titleText}>You don't have any lists yet. Start creating your lists.</h4>

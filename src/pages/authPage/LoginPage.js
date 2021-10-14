@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory } from "react-router"
-import { loginApi, registrationApi, logoutApi } from "../../store/isAuthSlice"
+import { useHistory, useLocation } from "react-router"
+import { loginApi, registrationApi, setErrorMessage } from "../../store/isAuthSlice"
 import { getUserData } from "../../store/dataSlice"
 import Input from "../../components/Input"
 import Button from "../../components/Button"
 import { validateEmail } from "../../halpers/validation"
 import { makeStyles } from '@material-ui/core/styles';
-import {ROUTE_MAIN} from "../../constants"
+import {ROUTE_MAIN, ROUTE_REGISTRATION} from "../../constants"
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Tooltip from "../../components/Tooltip"
@@ -48,6 +48,7 @@ const LoginPage = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const history = useHistory()
+    const location = useLocation();
     const { isAuth, errorMessage } = useSelector((state) => state.isAuth)
     const { user } = useSelector((state) => state.user)
     const [email, setEmail] = useState("")
@@ -55,6 +56,15 @@ const LoginPage = () => {
     const [error, setError] = useState("")
     const [isVisiblePassword, setIsVisiblePassword] = useState(false)
     const [openAlert, setOpenAlert] = useState(false)
+    const [isRegistrationPage, setIsRegistrationPage] = useState(false)
+    const currentRoute = location.pathname
+
+    useEffect(() => {
+        if(currentRoute === ROUTE_REGISTRATION) {
+            setIsRegistrationPage(true)
+        }
+        dispatch(setErrorMessage(null))
+    }, [currentRoute])
 
     useEffect(() => {
         setOpenAlert(!!errorMessage)
@@ -76,12 +86,15 @@ const LoginPage = () => {
         dispatch(loginApi({ email, password }))
         if (!user && !!errorMessage) setOpenAlert(true)
     }
-    // const onClickRegistration = () => {
-    //     dispatch(registrationApi({ email, password }))
-    // }
+    const onClickRegistration = () => {
+        dispatch(registrationApi({ email, password }))
+        if (!user && !!errorMessage) setOpenAlert(true)
+    }
+
+    console.log("errorMessage", errorMessage)
 
     useEffect(() => {
-        if (user) {
+        if (user && !errorMessage) {
             dispatch(getUserData(user.user.id))
             history.push(ROUTE_MAIN)
         }
@@ -93,7 +106,7 @@ const LoginPage = () => {
                 severity="error"
                 alertText={errorMessage}
                 onCloseHandler={onCloseHandler}/>
-            <h2>Login</h2>
+            <h2>{isRegistrationPage ? "Registration" : "Login"}</h2>
             {/* {!!errorMessage && <span className={classes.errorText}>{errorMessage}</span>} */}
             <div className={classes.itemWrapper}>
                 <Input label="email"
@@ -130,8 +143,8 @@ const LoginPage = () => {
                 <Button 
                     color="primary"
                     variant="contained"
-                    buttonText="login"
-                    onClickButton={onClickLogin}
+                    buttonText={isRegistrationPage ? "Registration" : "Login"}
+                    onClickButton={isRegistrationPage ? onClickRegistration : onClickLogin}
                 />
             </div>
         </div>

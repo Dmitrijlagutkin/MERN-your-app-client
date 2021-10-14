@@ -1,21 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { addList, update, remove } from "../services/listService"
 import { getUserData } from "./dataSlice"
-import { setIsLoading } from "./isAuthSlice"
-import { setIsActivated } from "./IsEmailActivatedSlice"
-
-// export const addList = createAsyncThunk(
-//     "lists/addList",
-//     async (id, { dispatch }) => {
-//         try {
-//             const response = await getData(id)
-//             dispatch(setIsActivated(response.data.isActivated))
-//             return response.data
-//         } catch (e) {
-//             console.log(e)
-//         }
-//     }
-// )
 
 export const addNewList = createAsyncThunk(
     "lists/addList",
@@ -112,34 +97,7 @@ const listsSlice = createSlice({
         }
     },
     extraReducers: {
-        // [loginApi.pending]: (state, action) => {
-        //     state.isLoading = true
-        // },
-        // [loginApi.fulfilled]: (state, action) => {
-        //     state.isLoading = false
-        //     // state.isAuth = true
-        // },
-        // [registrationApi.pending]: (state, action) => {
-        //     state.isLoading = true
-        // },
-        // [registrationApi.fulfilled]: (state, action) => {
-        //     state.isLoading = false
-        //     state.isAuth = true
-        // },
-        // [logoutApi.pending]: (state, action) => {
-        //     state.isLoading = true
-        // },
-        // [logoutApi.fulfilled]: (state, action) => {
-        //     state.isLoading = false
-        //     state.isAuth = false
-        // },
-        // [checkAuth.pending]: (state, action) => {
-        //     state.isLoading = true
-        // },
-        // [checkAuth.fulfilled]: (state, action) => {
-        //     state.isLoading = false
-        //     // state.isAuth = true
-        // },
+
     },
 })
 

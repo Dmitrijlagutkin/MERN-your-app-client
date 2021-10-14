@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { getData } from "../services/dataService"
 import { setIsLoading } from "./isAuthSlice"
-import { setIsActivated } from "./IsEmailActivatedSlice"
+import { setIsEmailActivated } from "./IsEmailActivatedSlice"
 import { setLists } from "./listsSlice"
 
 export const getUserData = createAsyncThunk(
@@ -9,7 +9,7 @@ export const getUserData = createAsyncThunk(
     async (id, { dispatch }) => {
         try {
             const response = await getData(id)
-            dispatch(setIsActivated(response.data.isActivated))
+            dispatch(setIsEmailActivated(response.data.isActivated))
             dispatch(setLists(response.data.lists))
             return response.data
         } catch (e) {

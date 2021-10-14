@@ -4,7 +4,7 @@ import { setUser } from "./userSlice"
 import { login, registration, logout } from "../services/authService"
 import { setData, getUserData } from "./dataSlice"
 import {setLists} from "./listsSlice"
-import { setIsActivated } from "./IsEmailActivatedSlice"
+import { setIsEmailActivated } from "./IsEmailActivatedSlice"
 import { API_URL } from "../http"
 
 export const loginApi = createAsyncThunk(
@@ -33,12 +33,16 @@ export const registrationApi = createAsyncThunk(
         try {
             const { email, password } = payload
             const response = await registration(email, password)
+            console.log("response", response)
             localStorage.setItem("token", response.data.accessToken)
             localStorage.setItem("refreshToken", response.data.refreshToken)
             dispatch(setUser(response.data))
             dispatch(setIsAuth(true))
+            dispatch(setErrorMessage(null))
             return response.data
         } catch (e) {
+            dispatch(setErrorMessage(e.response?.data?.message))
+            dispatch(setIsAuth(false))
             console.log(e.response?.data?.message)
         }
     }
@@ -49,13 +53,16 @@ export const logoutApi = createAsyncThunk(
     async (payload, { dispatch }) => {
         try {
             const refreshToken = localStorage.getItem("refreshToken")
-            const response = await logout(refreshToken)
-            localStorage.removeItem("token")
-            localStorage.removeItem("refreshToken")
             dispatch(setUser(null))
             dispatch(setData(null))
             dispatch(setLists(null))
-            dispatch(setIsActivated(null))
+            dispatch(setIsEmailActivated(null))
+            dispatch(setErrorMessage(null))
+            dispatch(setIsAuth(false))
+            const response = await logout(refreshToken)
+            localStorage.removeItem("token")
+            // localStorage.removeItem("refreshToken")
+            
             return response.data
         } catch (e) {
             console.log(e.response?.data?.message)
@@ -103,34 +110,7 @@ const isAuthSlice = createSlice({
         }
     },
     extraReducers: {
-        [loginApi.pending]: (state, action) => {
-            state.isLoading = true
-        },
-        [loginApi.fulfilled]: (state, action) => {
-            state.isLoading = false
-            // state.isAuth = true
-        },
-        [registrationApi.pending]: (state, action) => {
-            state.isLoading = true
-        },
-        [registrationApi.fulfilled]: (state, action) => {
-            state.isLoading = false
-            state.isAuth = true
-        },
-        [logoutApi.pending]: (state, action) => {
-            state.isLoading = true
-        },
-        [logoutApi.fulfilled]: (state, action) => {
-            state.isLoading = false
-            state.isAuth = false
-        },
-        [checkAuth.pending]: (state, action) => {
-            state.isLoading = true
-        },
-        [checkAuth.fulfilled]: (state, action) => {
-            state.isLoading = false
-            // state.isAuth = true
-        },
+ 
     },
 })
 

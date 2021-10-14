@@ -6,7 +6,7 @@ import Button from "./Button"
 import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from "@material-ui/icons/Menu"
 import {logoutApi} from "../store/isAuthSlice"
-import {ROUTE_MAIN, ROUTE_LOGIN} from "../constants"
+import {ROUTE_MAIN, ROUTE_LOGIN, ROUTE_REGISTRATION} from "../constants"
 import Loader from "./Loader"
 import Input from "./Input"
 
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const ButtonAppBar = ({ onClickOpenMenu }) => {
+const ButtonAppBar = ({ onClickOpenMenu}) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const history = useHistory()
@@ -56,10 +56,11 @@ const ButtonAppBar = ({ onClickOpenMenu }) => {
     const [searchText, setSearchText] = useState('')
 
     const onClickLogout = () => {
-        history.push(ROUTE_MAIN)
+        history.push(ROUTE_LOGIN)
         dispatch(logoutApi())
     }
     const onClictToLoginPage = () => history.push(ROUTE_LOGIN)
+    const onClickToRegistrationPage = () => history.push(ROUTE_REGISTRATION)
     const onChangeSearchText = (e) => setSearchText(e.target.value)
 
     return (
@@ -77,21 +78,25 @@ const ButtonAppBar = ({ onClickOpenMenu }) => {
                     </IconButton>
                     {isAuth ? 
                             <div className={classes.buttonWrapper}>
-                                <Input label="Search"
+                                {/* <Input label="Search"
                                     onChangeInput = {(e) => onChangeSearchText(e)}
                                     className={classes.InputSearch}
                                     isLiteInput={true}
-                                />
+                                /> */}
                                 <Button className={classes.button} color='inherit' buttonText="Logout" onClickButton={onClickLogout}/>
                             </div>
                             :
                             <div className={classes.buttonWrapper}>
                                 <Button className={classes.button} 
                                     color='inherit' 
-                                    buttonText="Sign in"
+                                    buttonText="Login"
                                     onClickButton={onClictToLoginPage}
                                     />
-                                <Button color='inherit' buttonText="Registration"/>
+                                <Button className={classes.button} 
+                                    color='inherit' 
+                                    buttonText="Registration"
+                                    onClickButton={onClickToRegistrationPage}
+                                    />
                             </div>
                     }
                 </div>

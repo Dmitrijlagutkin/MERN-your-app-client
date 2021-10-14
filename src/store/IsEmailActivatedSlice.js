@@ -3,15 +3,15 @@ import { createSlice } from "@reduxjs/toolkit"
 const isEmailActivatedSlice = createSlice({
     name: "isEmailActivated",
     initialState: {
-        isActivated: null,
+        isEmailActivated: null,
     },
     reducers: {
-        setIsActivated(state, action) {
-            state.isActivated = action.payload
+        setIsEmailActivated(state, action) {
+            state.isEmailActivated = action.payload
         },
     },
 })
 
-export const { setIsActivated } = isEmailActivatedSlice.actions
+export const { setIsEmailActivated } = isEmailActivatedSlice.actions
 
 export default isEmailActivatedSlice.reducer

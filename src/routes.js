@@ -5,7 +5,8 @@ import CreateListPage from "./pages/createListPage/CreateListPage"
 import { ROUTE_PAGE_NOT_FOUND, 
 	ROUTE_MAIN, 
 	ROUTE_LOGIN, 
-	ROUTE_CREATE_LIST 
+	ROUTE_CREATE_LIST,
+	ROUTE_REGISTRATION 
 } from "./constants"
 
 const routes = [
@@ -22,6 +23,11 @@ const routes = [
     {
         exact: true,
 		path: ROUTE_LOGIN,
+		component: LoginPage
+    },
+	{
+        exact: true,
+		path: ROUTE_REGISTRATION,
 		component: LoginPage
     },
 	{
