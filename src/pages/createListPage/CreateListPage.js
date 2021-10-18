@@ -99,7 +99,9 @@ const useStyles = makeStyles((theme) => ({
     addItemIconButton: {
         cursor: "pointer"
     },
-    
+    addItemsTitle: {
+        marginBottom: "25px",
+    }
 }));
 
 const CreateListPage = () => {
@@ -178,9 +180,6 @@ const CreateListPage = () => {
         setIsOpenListItem(false)
         dispatch(setTempListItem({itemName: itemName}))
     }
-
-    console.log("isConfirmCategory", isConfirmCategory)
-    console.log("isAddCategory", isAddCategory)
 
     return (
         <div className={classes.root}>
@@ -293,7 +292,7 @@ const CreateListPage = () => {
                 })}
             </div>
             {isOpenListItem && <ListItem onClickConfirmItem={onClickConfirmItem}/>}
-            
+            {!tempListItem?.length && <div className={classes.addItemsTitle}>Add items</div>}
             <div>
                 <Tooltip title="Add item"
                     placement="bottom"
