@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     },
     createListButton: {
         display: "inline-block",
-        marginTop: "25px"
+        margin: "25px 50px"
     },
     itemsList: {
         marginBottom: "30px"
