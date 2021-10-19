@@ -18,23 +18,25 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CheckBox({onClickCheckBox, withIcon, defoultCheckbox}) {
+export default function CheckBox({onClickCheckBox, withIcon, defoultCheckbox, isComplete}) {
     const classes = useStyles()
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(isComplete);
 
-    const handleChange = (event) => {
-        setChecked(event.target.checked);
+    const handleChange = () => {
+        setChecked(isComplete);
     };
+
+    console.log("isComplete", isComplete)
 
     const checkBox = useCallback(() => {
         switch (true) {
             case defoultCheckbox: {
                 return <Checkbox
-                    checked={checked}
+                    checked={isComplete}
                     onChange={handleChange}
                     defaultChecked
                     color="primary"
-                    inputProps={{ 'aria-label': 'secondary checkbox' }}
+                    // inputProps={{ 'aria-label': 'secondary checkbox' }}
                 />
             }
             case withIcon: {

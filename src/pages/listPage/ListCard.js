@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from "react-redux"
 import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: "90%",
       margin: "0 auto",
       display: "grid",
-      gridTemplateColumns: "0.5fr 6fr 0.5fr",
+      gridTemplateColumns: "auto 1fr auto",
       alignItems: "center",
       fontSize: "18px"
   },
@@ -74,6 +74,20 @@ const useStyles = makeStyles((theme) => ({
   itemName: {
     textAlign: "start",
     marginLeft: "10px",
+    maxWidth: "150px",
+    width: "150px",
+    whiteSpace: "nowrap", 
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    "&:hover": {
+      backgroundColor: "#fff",
+      overflow: "visible",
+      whiteSpace: "normal", 
+    }
+  },
+  itemNameCompleted: {
+    textDecoration: "line-through",
+    color: "rgba(0, 0, 0, 0.4)",
   },
   isFavoriteActiveColor: {
     color: "#f44336",
@@ -106,6 +120,49 @@ const ListCard = ({listData}) => {
   const [expanded, setExpanded] = useState(false);
   const [isOpenShareModal, setIsOpenShareModal] = useState(false);
   const [anchorElPopover, setAnchorElPopover] = useState(null);
+  const [targetItemId, setTargetItemId] = useState("")
+  const [changeItemIsConfirm, setChangeItemIsConfirm] = useState([])
+
+  const onClickId = (id) => {
+    setTargetItemId(id)
+  }
+  console.log("targetItemId", targetItemId)
+
+
+  useEffect(() => {
+    if(!!targetItemId) {
+      setChangeItemIsConfirm(listData.listItem.map((item) => {
+        if (item._id === targetItemId) {
+          const newItem = {
+            _id: item._id,
+            itemName: item.itemName,
+            isComplete: !item.isComplete
+          }
+          return newItem
+        } else {
+          return item
+        }
+      })) 
+      setTargetItemId('')
+    }
+  }, [targetItemId])
+
+  console.log("changeItemIsConfirm", changeItemIsConfirm)
+
+  useEffect(() => {
+    if(!!changeItemIsConfirm.length) {
+      console.log("console is work")
+      dispatch(updateList({
+        listTitle: listData.listTitle, 
+        date, 
+        category: listData.category, 
+        listItem: changeItemIsConfirm, 
+        isFavorites: listData.isFavorites,
+        id: listData._id,
+        userId
+      }))
+    }
+  }, [changeItemIsConfirm])
 
   const handleClickAnchorElPopover = (event) => {
     setAnchorElPopover(event.currentTarget);
@@ -128,12 +185,14 @@ const ListCard = ({listData}) => {
         listTitle: listData.listTitle, 
         date, 
         category: listData.category, 
-        listItem: listData.tempListItem, 
+        listItem: listData.listItem, 
         isFavorites: !isFavorites,
         id: listData._id,
         userId
       }))
   }
+  
+
 
   return (
     <>
@@ -201,10 +260,10 @@ const ListCard = ({listData}) => {
           <CardContent>
             {listData.listItem.map((item, index) => {
               return (
-                <div className={classes.listItemsWrapper} key={item.itemName}>
+                <div className={classes.listItemsWrapper} key={item.itemName} onClick={() => onClickId(item._id)}>
                   <span className={classes.itemNumber}>{index + 1}.</span>
-                  <span className={classes.itemName}>{item.itemName}</span>
-                  <CheckBox defoultCheckbox={true}/>
+                  <span className={classes.itemName, !!item.isComplete && classes.itemNameCompleted}>{item.itemName}</span>
+                  <CheckBox defoultCheckbox={true} isComplete={item.isComplete}/>
                 </div>
               )
             })}

@@ -120,6 +120,8 @@ const CreateListPage = () => {
     const [isAddCategory, setIsAddCategory] = useState(false)
     const [isOpenListItem, setIsOpenListItem] = useState(false)
     const [isFavorite, setIsFavorite] = useState(false);
+    const _id = Date.now().toString()
+    const isComplete = false
 
     useEffect(() => {
         setCategory(selectedCategory)
@@ -178,7 +180,10 @@ const CreateListPage = () => {
     const openListItemHandler = () => setIsOpenListItem(true)
     const onClickConfirmItem = (itemName) => {
         setIsOpenListItem(false)
-        dispatch(setTempListItem({itemName: itemName}))
+        dispatch(setTempListItem({_id, 
+            itemName: itemName, 
+            isComplete
+        }))
     }
 
     return (
