@@ -27,7 +27,7 @@ const ShareModal = ({open, onClickClose, listData}) => {
         <Modal withHeader={true}
             onClickClose={onClickClose}
             open={open}
-            title="send your list"
+            title="Send your list"
         >
             <div>
                 <TelegramShareButton className={classes.shareIcons}

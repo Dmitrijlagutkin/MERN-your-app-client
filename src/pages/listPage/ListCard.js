@@ -23,6 +23,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import { ROUTE_CREATE_LIST } from '../../constants';
 import {updateList, deleteList} from "../../store/listsSlice"
 import { useDate } from '../../hooks/useDate';
+import CheckBox from "../../components/CheckBox"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,12 +63,12 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: "90%",
       margin: "0 auto",
       display: "grid",
-      gridTemplateColumns: "0.5fr auto",
+      gridTemplateColumns: "0.5fr 6fr 0.5fr",
       alignItems: "center",
       fontSize: "18px"
   },
   itemNumber: {
-    textAlign: "end",
+    textAlign: "start",
     color: "#f44336",
   },
   itemName: {
@@ -203,13 +204,13 @@ const ListCard = ({listData}) => {
                 <div className={classes.listItemsWrapper} key={item.itemName}>
                   <span className={classes.itemNumber}>{index + 1}.</span>
                   <span className={classes.itemName}>{item.itemName}</span>
+                  <CheckBox defoultCheckbox={true}/>
                 </div>
               )
             })}
             
           </CardContent>
         </Collapse>
-        
       </Card>
     </>
   );

@@ -204,7 +204,8 @@ const CreateListPage = () => {
                         arrow={true}>
                         <CheckIcon color={!!listTitle ? "primary" : "disabled"} 
                             style={!!listTitle ? {cursor: "pointer"} : {cursor: "not-allowed"}}
-                            onClick={onClickConfirmTitle}/>
+                            onClick={onClickConfirmTitle}
+                            />
                     </Tooltip>
                 </div>
                 :
@@ -273,7 +274,9 @@ const CreateListPage = () => {
 
             <div className={classes.favoritesWrapper}>
                 <span className={classes.signature}>Favorites:</span>
-                <CheckBox onClickCheckBox={onClickIsFavoriteHandler}/>
+                <CheckBox onClickCheckBox={onClickIsFavoriteHandler} 
+                    withIcon={true}
+                />
                 
             </div>
 

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: "10px",
-    width: "300px",
+    width: "220px",
   },
   headerWpapper: {
     height: "50px",

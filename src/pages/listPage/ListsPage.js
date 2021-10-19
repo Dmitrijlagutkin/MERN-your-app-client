@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
     },
     bottomButton: {
         cursor: "pointer",
-        display: "inline-block"
+        display: "inline-block",
+        marginBottom: "50px",
     },
     emailActivated: {
         padding: "10px 15px",
