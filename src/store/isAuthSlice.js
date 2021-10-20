@@ -15,6 +15,7 @@ export const loginApi = createAsyncThunk(
             const response = await login(email, password)
             localStorage.setItem("token", response.data.accessToken)
             localStorage.setItem("refreshToken", response.data.refreshToken)
+            localStorage.setItem("auth", true)
             dispatch(setUser(response.data))
             dispatch(setIsAuth(true))
             dispatch(setErrorMessage(null))
@@ -61,6 +62,7 @@ export const logoutApi = createAsyncThunk(
             dispatch(setIsAuth(false))
             const response = await logout(refreshToken)
             localStorage.removeItem("token")
+            localStorage.removeItem("auth")
             // localStorage.removeItem("refreshToken")
             
             return response.data

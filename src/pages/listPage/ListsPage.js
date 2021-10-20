@@ -68,9 +68,10 @@ const ListsPage = () => {
     const {isEmailActivated} = useSelector((state) => state?.isEmailActivated)
     const { isAuth } = useSelector((state) => state?.isAuth)
     const [searchText, setSearchText] = useState('')
+    const auth = localStorage.getItem("auth")
 
     useEffect(() => {
-        if(!isAuth) {
+        if(!isAuth && !auth) {
             history.push(ROUTE_LOGIN)
         }
     }, [isAuth])
@@ -80,11 +81,11 @@ const ListsPage = () => {
 
     return (
         <div className={classes.root}>
-            {!isEmailActivated && <span className={classes.emailActivated}>
+            {!isEmailActivated && !auth && <span className={classes.emailActivated}>
                 Please check your email and follow the link to activate your email address
                 <a href="https://mail.google.com/mail/u/0/?tab=rm#inbox" className={classes.buttonCheckNow}>check now</a>
             </span>}
-            {!lists?.length ? 
+            {!lists?.length && !auth ? 
                 <div className={classes.titleWrapper}>
                     <h4 className={classes.titleText}>You don't have any lists yet. Start creating your lists.</h4>
                     <Button buttonText="Create your first list"

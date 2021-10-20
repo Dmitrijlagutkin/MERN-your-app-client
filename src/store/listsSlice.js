@@ -86,7 +86,6 @@ const listsSlice = createSlice({
             state.lists = action.payload
         },
         setTempListItem(state, action) {
-            console.log("action.payload", !!action.payload)
             if(!!action.payload) {
                 state.tempListItem.push(action.payload)
             } else {

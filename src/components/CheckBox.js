@@ -26,8 +26,6 @@ export default function CheckBox({onClickCheckBox, withIcon, defoultCheckbox, is
         setChecked(isComplete);
     };
 
-    console.log("isComplete", isComplete)
-
     const checkBox = useCallback(() => {
         switch (true) {
             case defoultCheckbox: {
