@@ -1,4 +1,3 @@
-import axios from "axios"
 import api from "../http/index"
 
 export const login = async (email, password) => {

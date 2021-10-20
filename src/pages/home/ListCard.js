@@ -188,8 +188,6 @@ const ListCard = ({listData}) => {
       }))
   }
   
-
-
   return (
     <>
       <Card className={classes.root}>

@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react"
-import {useSelector, useDispatch} from "react-redux"
+import {useEffect} from "react"
+import {useSelector} from "react-redux"
 import {useHistory} from "react-router-dom"
 import { makeStyles } from '@material-ui/styles';
 import Button from "../../components/Button";
@@ -7,7 +7,7 @@ import {ROUTE_LOGIN, ROUTE_CREATE_LIST} from "../../constants"
 import ListCard from "./ListCard"
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import Tooltip from "../../components/Tooltip"
-import ShareWithFriends from "../sharePage/ShareWithFriends"
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,17 +57,19 @@ const useStyles = makeStyles((theme) => ({
         color: "#3f51b5",
         textDecoration: "underline",
         fontWeight: "600",
-    }
+    },
+    backButton: {
+        textAlign: "start",
+        cursor: "pointer",
+    },
 }));
 
-const ListsPage = () => {
+const ListsPage = ({isFavoritesPage}) => {
     const classes = useStyles()
-    const dispatch = useDispatch()
     const history = useHistory()
     const {lists} = useSelector((state) => state?.lists)
     const {isEmailActivated} = useSelector((state) => state?.isEmailActivated)
     const { isAuth } = useSelector((state) => state?.isAuth)
-    const [searchText, setSearchText] = useState('')
     const auth = localStorage.getItem("auth")
 
     useEffect(() => {
@@ -77,7 +79,11 @@ const ListsPage = () => {
     }, [isAuth])
 
     const onClickToCreateList = () => history.push(ROUTE_CREATE_LIST)
-    const onChangeSearchText = (e) => setSearchText(e.target.value)
+    const isFavoritesLists = lists?.filter((list, index) => {
+        return list.isFavorites && list
+    })
+
+    const onClickGoBack = () => history.goBack()
 
     return (
         <div className={classes.root}>
@@ -97,8 +103,18 @@ const ListsPage = () => {
                 :
                 <div>
                     <div className={classes.topTitle}>
-                        <span/>
-                        <h4 className={classes.titleText}>Your lists</h4>
+                    {!isFavoritesPage ? <span/> 
+                    : 
+                    <ArrowBackIcon onClick={onClickGoBack} 
+                        className={classes.backButton}
+                        />
+                    }
+                        {!isFavoritesPage ? <h4 className={classes.titleText}>Your lists</h4> :
+                            !!isFavoritesLists.length ? 
+                                <h4 className={classes.titleText}>Your favorite lists</h4> 
+                            : 
+                                <h4 className={classes.titleText}>Your don't have favorites lists</h4>
+                        }
                         <div className={classes.titleWrapper}>
                             <Button buttonText="Create new list"
                             variant="contained"
@@ -111,13 +127,18 @@ const ListsPage = () => {
                     <div className={classes.listWrapper}>
                         {lists?.map((list, index) => {
                             return (
-                                <div className={classes.listItem} key={list._id}>
-                                    <ListCard listData={list}/>
-                                </div>
+                                <>
+                                    {isFavoritesPage ?
+                                    list.isFavorites && <div className={classes.listItem} key={list._id}>
+                                        <ListCard listData={list}/>
+                                    </div> :
+                                    <div className={classes.listItem} key={list._id}>
+                                        <ListCard listData={list}/>
+                                    </div>}
+                                </>
                             )
                         })}
                     </div>
-                    
                     <Tooltip title="Create new list"
                         placement="bottom"
                         arrow={true}>

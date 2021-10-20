@@ -15,7 +15,7 @@ export const useMessageContent = (messageName, data, clientUrl) => {
             return {shareUrlTelegram, titleTelegram}
 
         case "whatsapp":
-            const shareUrlWhatsApp= `*${data.listTitle}* 
+            const shareUrlWhatsApp = `*${data.listTitle}* 
             ${data.date} 
             category: _${data.category}_ `
 

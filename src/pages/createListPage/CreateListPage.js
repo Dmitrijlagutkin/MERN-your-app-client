@@ -171,7 +171,7 @@ const CreateListPage = () => {
             return list.category
         })
         const catList = categoryList?.filter((item, pos) => {
-            if(!!item) return categoryList.indexOf(item) == pos;
+            if(!!item) return categoryList.indexOf(item) === pos;
         })
         return catList
     }

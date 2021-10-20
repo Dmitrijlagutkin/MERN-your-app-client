@@ -1,14 +1,7 @@
-import {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const useStyles = makeStyles((theme) => ({
-  typography: {
-    padding: theme.spacing(2),
-  },
   body: {
     padding: "10px"
   }
@@ -23,7 +16,6 @@ const SimplePopover = ({anchorEl, onClose, children}) => {
 
   return (
     <div>
-      {/* <MoreVertIcon onClick={onClick}/> */}
       <Popover
         id={id}
         open={open}

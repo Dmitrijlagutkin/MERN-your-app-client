@@ -44,12 +44,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const LoginPage = () => {
+const AuthPage = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const history = useHistory()
     const location = useLocation();
-    const { isAuth, errorMessage } = useSelector((state) => state.isAuth)
+    const { errorMessage } = useSelector((state) => state.isAuth)
     const { user } = useSelector((state) => state.user)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -149,4 +149,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage
+export default AuthPage

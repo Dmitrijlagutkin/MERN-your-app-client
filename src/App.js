@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect} from "react"
 import { BrowserRouter} from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { checkAuth } from "./store/isAuthSlice"
 import AppRouter from "./components/AppRouter"
 import NavBar from "./components/Navbar"
-import Loader from "./components/Loader"
 
 const App = () => {
     const dispatch = useDispatch()
@@ -14,9 +13,6 @@ const App = () => {
             dispatch(checkAuth())
         } 
     }, [])
-    const { isAuth } = useSelector((state) => state.isAuth)
-    // const { isLoading } = useSelector((state) => state.isAuth)
-    const { isActivated } = useSelector((state) => state.isEmailActivated)
 
     return (
         <>
