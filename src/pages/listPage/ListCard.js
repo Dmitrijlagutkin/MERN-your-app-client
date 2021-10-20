@@ -126,8 +126,6 @@ const ListCard = ({listData}) => {
   const onClickId = (id) => {
     setTargetItemId(id)
   }
-  console.log("targetItemId", targetItemId)
-
 
   useEffect(() => {
     if(!!targetItemId) {
@@ -147,11 +145,9 @@ const ListCard = ({listData}) => {
     }
   }, [targetItemId])
 
-  console.log("changeItemIsConfirm", changeItemIsConfirm)
 
   useEffect(() => {
     if(!!changeItemIsConfirm.length) {
-      console.log("console is work")
       dispatch(updateList({
         listTitle: listData.listTitle, 
         date, 

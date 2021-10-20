@@ -91,8 +91,6 @@ const LoginPage = () => {
         if (!user && !!errorMessage) setOpenAlert(true)
     }
 
-    console.log("errorMessage", errorMessage)
-
     useEffect(() => {
         if (user && !errorMessage) {
             dispatch(getUserData(user.user.id))

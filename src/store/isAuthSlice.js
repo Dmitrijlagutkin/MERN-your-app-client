@@ -74,6 +74,7 @@ export const checkAuth = createAsyncThunk(
     "isAuth/checkAuth",
     async (payload, { dispatch }) => {
         try {
+            dispatch(setIsLoading(true))
             const refreshToken = localStorage.getItem("refreshToken")
             const response = await axios.post(`${API_URL}/refresh`, {
                 refreshToken
@@ -83,6 +84,7 @@ export const checkAuth = createAsyncThunk(
             dispatch(setUser(response.data))
             dispatch(getUserData(response.data.user.id))
             dispatch(setIsAuth(true))
+            dispatch(setIsLoading(false))
             return response.data
         } catch (e) {
             console.log(e.response?.data?.message)
@@ -99,8 +101,8 @@ const isAuthSlice = createSlice({
         errorMessage: null
     },
     reducers: {
-        setIsLoading(state) {
-            state.isLoading = false
+        setIsLoading(state, action) {
+            state.isLoading = action.payload
         },
         setIsAuth(state, action) {
             state.isAuth = action.payload

@@ -1,18 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { addList, update, remove } from "../services/listService"
 import { getUserData } from "./dataSlice"
+import { setIsLoading } from "./isAuthSlice"
 
 export const addNewList = createAsyncThunk(
     "lists/addList",
     async (payload, { dispatch }) => {
-        console.log("in slice", 
-        payload.listTitle, 
-        payload.date, 
-        payload.category, 
-        payload.listItem, 
-        payload.isFavorites, 
-        payload.userId)
+        
         try {
+            dispatch(setIsLoading(true))
             const {listTitle, 
                 date, 
                 category, 
@@ -24,8 +20,8 @@ export const addNewList = createAsyncThunk(
                 category, 
                 listItem, 
                 isFavorites)
-            console.log(response.data)
             dispatch(getUserData(userId))
+            dispatch(setIsLoading(false))
             return response.data
         } catch (e) {
             console.log(e.response?.data?.message)
@@ -36,14 +32,9 @@ export const addNewList = createAsyncThunk(
 export const updateList = createAsyncThunk(
     "lists/updateList",
     async (payload, { dispatch }) => {
-        console.log("in slice", 
-        payload.listTitle, 
-        payload.date, 
-        payload.category, 
-        payload.listItem, 
-        payload.isFavorites, 
-        payload.id)
+      
         try {
+            dispatch(setIsLoading(true))
             const {listTitle, 
                 date, 
                 category, 
@@ -59,6 +50,7 @@ export const updateList = createAsyncThunk(
                 id)
             console.log(response.data)
             dispatch(getUserData(userId))
+            dispatch(setIsLoading(false))
             return response.data
         } catch (e) {
             console.log(e.response?.data?.message)
@@ -69,12 +61,13 @@ export const updateList = createAsyncThunk(
 export const deleteList = createAsyncThunk(
     "lists/deleteList",
     async (payload, { dispatch }) => {
-        console.log("in slice", payload.id, payload.userId)
+        dispatch(setIsLoading(true))
         try {
             const {id, userId}= payload
             const response = await remove(id)
             console.log(response.data)
             dispatch(getUserData(userId))
+            dispatch(setIsLoading(false))
             return response.data
         } catch (e) {
             console.log(e.response?.data?.message)
@@ -93,7 +86,12 @@ const listsSlice = createSlice({
             state.lists = action.payload
         },
         setTempListItem(state, action) {
-            state.tempListItem.push(action.payload)
+            console.log("action.payload", !!action.payload)
+            if(!!action.payload) {
+                state.tempListItem.push(action.payload)
+            } else {
+                state.tempListItem = []
+            }
         }
     },
     extraReducers: {

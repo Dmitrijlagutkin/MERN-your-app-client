@@ -65,9 +65,7 @@ const ButtonAppBar = ({ onClickOpenMenu}) => {
 
     return (
         <>
-            {isLoading ?
-                <div><Loader isLoading={isLoading}/></div>
-                :
+            {isLoading && <div><Loader isLoading={isLoading}/></div>}
                 <div className={classes.root}>
                     <IconButton
                         edge='start'
@@ -76,6 +74,7 @@ const ButtonAppBar = ({ onClickOpenMenu}) => {
                         aria-label='menu'>
                         <MenuIcon onClick={onClickOpenMenu} />
                     </IconButton>
+                    
                     {isAuth ? 
                             <div className={classes.buttonWrapper}>
                                 {/* <Input label="Search"
@@ -100,7 +99,6 @@ const ButtonAppBar = ({ onClickOpenMenu}) => {
                             </div>
                     }
                 </div>
-            }
         </>
     )
 }

@@ -8,9 +8,11 @@ export const getUserData = createAsyncThunk(
     "data/getData",
     async (id, { dispatch }) => {
         try {
+            dispatch(setIsLoading(true))
             const response = await getData(id)
             dispatch(setIsEmailActivated(response.data.isActivated))
             dispatch(setLists(response.data.lists))
+            dispatch(setIsLoading(false))
             return response.data
         } catch (e) {
             console.log(e)
@@ -21,7 +23,7 @@ export const getUserData = createAsyncThunk(
 const dataSlice = createSlice({
     name: "data",
     initialState: {
-        isLoading: false,
+        // isLoading: false,
         data: null,
     },
     reducers: {
@@ -30,23 +32,23 @@ const dataSlice = createSlice({
         },
     },
     extraReducers: {
-        [getUserData.pending]: (state) => {
-            state.isLoading = true
-        },
-        [getUserData.fulfilled]: (state, action) => {
-            if (!action.payload) {
-                state.data = null
-            }
-            if (action.payload) {
-                state.data = action.payload
-            }
+        // [getUserData.pending]: (state) => {
+        //     state.isLoading = true
+        // },
+        // [getUserData.fulfilled]: (state, action) => {
+        //     if (!action.payload) {
+        //         state.data = null
+        //     }
+        //     if (action.payload) {
+        //         state.data = action.payload
+        //     }
 
-            state.isLoading = false
-        },
-        [getUserData.rejected]: (state, action) => {
-            state.data = null
-            state.isLoading = false
-        },
+        //     state.isLoading = false
+        // },
+        // [getUserData.rejected]: (state, action) => {
+        //     state.data = null
+        //     state.isLoading = false
+        // },
     },
 })
 

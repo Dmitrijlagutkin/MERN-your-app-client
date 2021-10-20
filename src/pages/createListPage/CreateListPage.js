@@ -138,6 +138,7 @@ const CreateListPage = () => {
                 listItem: tempListItem, 
                 isFavorites: isFavorite,
                 userId: user?.user?.id}))
+            dispatch(setTempListItem(null))
             history.push(ROUTE_MAIN)
         }
     }
